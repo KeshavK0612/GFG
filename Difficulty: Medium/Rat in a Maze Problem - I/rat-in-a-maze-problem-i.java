@@ -2,6 +2,7 @@
 // Initial Template for Java
 
 import java.util.*;
+
 class Rat {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -14,11 +15,10 @@ class Rat {
                 for (int j = 0; j < n; j++) a[i][j] = sc.nextInt();
 
             Solution obj = new Solution();
-            ArrayList<String> res = obj.findPath(a, n);
+            ArrayList<String> res = obj.findPath(a);
             Collections.sort(res);
             if (res.size() > 0) {
-                for (int i = 0; i < res.size(); i++)
-                    System.out.print(res.get(i) + " ");
+                for (int i = 0; i < res.size(); i++) System.out.print(res.get(i) + " ");
                 System.out.println();
             } else {
                 System.out.println(-1);
@@ -30,51 +30,59 @@ class Rat {
 // } Driver Code Ends
 
 
-// User function Template for Java
-
-// m is the given matrix and n is the order of matrix
 class Solution {
-  private static void solve(int i, int j, int a[][], int n, ArrayList < String > ans, String move,
-    int vis[][], int di[], int dj[]) {
-    if (i == n - 1 && j == n - 1) {
-      ans.add(move);
-      return;
-    }
-    String dir = "DLRU";
-    for (int ind = 0; ind < 4; ind++) {
-      int nexti = i + di[ind];
-      int nextj = j + dj[ind];
-      if (nexti >= 0 && nextj >= 0 && nexti < n && nextj < n &&
-        vis[nexti][nextj] == 0 && a[nexti][nextj] == 1) {
-
-        vis[i][j] = 1;
-        solve(nexti, nextj, a, n, ans, move + dir.charAt(ind), vis, di, dj);
-        vis[i][j] = 0;
-
-      }
-    }
-  }
-  public static ArrayList < String > findPath(int[][] m, int n) {
-    int vis[][] = new int[n][n];
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        vis[i][j] = 0;
-      }
-    }
-    int di[] = {
-      +1,
-      0,
-      0,
-      -1
-    };
-    int dj[] = {
-      0,
-      -1,
-      1,
-      0
-    };
-    ArrayList < String > ans = new ArrayList < > ();
-    if (m[0][0] == 1) solve(0, 0, m, n, ans, "", vis, di, dj);
-    return ans;
-  }
+public ArrayList<String> findPath(int[][] mat) {
+ArrayList<String> result = new ArrayList<>();
+if (mat[0][0] == 0 || mat[mat.length - 1][mat[0].length - 1] == 0) {
+return result; // Return empty if start or end is blocked
+}
+boolean[][] visited = new boolean[mat.length][mat[0].length]; StringBuilder path = new StringBuilder();
+findPaths(mat, 0, 0, visited, path, result);
+return result;
+}
+private void findPaths(int[][] mat, int row, int col, boolean[][] visited, StringBuilder path, ArrayList<String> result) {
+int n = mat.length;
+ 
+// Base case: if we reach the bottom-right cell
+if (row == n - 1 && col == n - 1) {
+result.add(path.toString());
+return;
+}
+ 
+// Mark the cell as visited
+visited[row][col] = true;
+ 
+// Explore all four directions
+// Down
+if (isSafe(mat, row + 1, col, visited)) {
+path.append('D');
+findPaths(mat, row + 1, col, visited, path, result); path.deleteCharAt(path.length() - 1); // Backtrack
+}
+ 
+// Up
+if (isSafe(mat, row - 1, col, visited)) {
+path.append('U');
+findPaths(mat, row - 1, col, visited, path, result); path.deleteCharAt(path.length() - 1); // Backtrack
+}
+ 
+// Right
+if (isSafe(mat, row, col + 1, visited)) {
+path.append('R');
+findPaths(mat, row, col + 1, visited, path, result);
+path.deleteCharAt(path.length() - 1); // Backtrack
+}
+ 
+// Left
+if (isSafe(mat, row, col - 1, visited)) {
+path.append('L');
+findPaths(mat, row, col - 1, visited, path, result); path.deleteCharAt(path.length() - 1); // Backtrack
+}
+ 
+// Unmark the cell as visited for other paths
+visited[row][col] = false;
+}
+ 
+private boolean isSafe(int[][] mat, int row, int col, boolean[][] visited) { int n = mat.length;
+return (row >= 0 && row < n && col >= 0 && col < n && mat[row][col] == 1 && !visited[row][col]);
+}
 }
