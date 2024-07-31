@@ -50,12 +50,12 @@ class MyStack {
     public void push(int x) {
         // Your Code
         top++;
-arr[top] = x;
+        arr[top] = x;
     }
 
     public int pop() {
         // Your Code
-        if(top == -1) return -1;
-return arr[top--];
+        if(top==-1) return -1;
+        return arr[top--];
     }
 }
