@@ -45,7 +45,7 @@ class MyQueue {
 
     int front, rear;
 	int arr[] = new int[100005];
-	int count = 0;
+	int n = arr.length;
 
     MyQueue()
 	{
@@ -57,14 +57,15 @@ class MyQueue {
 	void push(int x)
 	{
 	    // Your code here
-	    arr[rear++] = x;
+	    arr[rear] = x;
+	    rear++;
 	} 
 
     //Function to pop an element from queue and return that element.
 	int pop()
 	{
 		// Your code here
-		if(front==rear) return -1;
+		if(front == rear) return -1;
 		return arr[front++];
 	} 
 }
