@@ -8,38 +8,15 @@ import java.util.*;
 // User function Template for Java
 
 class Solution {
-    public int sumOfMiddleElements(int[] arr1, int[] arr2) {
-        List<Integer> merged = new ArrayList<Integer>();
-        int i = 0;
-        int j = 0;
-        
-        while(i < arr1.length && j < arr2.length){
-            if(arr1[i] < arr2[j]){
-                merged.add(arr1[i]);
-                i++;
-            }else{
-                merged.add(arr2[j]);
-                j++;
-            }
-        }
-        
-        // add rest of elements
-        while(i < arr1.length){
-            merged.add(arr1[i]);
-            i++;
-        }
-        // left values from array 2
-        while(j < arr2.length){
-            merged.add(arr2[j]);
-            j++;
-        }
-        
-        int mid = merged.size() / 2;
-        if (merged.size() % 2 == 0) {
-            return merged.get(mid - 1) + merged.get(mid);
-        } else {
-            return merged.get(mid);
-        }
+    public int SumofMiddleElements(int[] arr1,int[] arr2) {
+        // code here
+        ArrayList<Integer> tk=new ArrayList<>();
+        for(int i:arr1) tk.add(i);
+        for(int i:arr2) tk.add(i);
+        Collections.sort(tk);
+        int i=tk.size()/2;
+        if(tk.size()%2==1)  return tk.get(i);
+        return tk.get(i--)+tk.get(i); // This case will never occur for valid input
     }
 }
 
@@ -63,7 +40,7 @@ public class Main {
             }
 
             Solution ob = new Solution();
-            int res = ob.sumOfMiddleElements(arr, brr);
+            int res = ob.SumofMiddleElements(arr, brr);
             System.out.println(res);
         }
     }
