@@ -13,34 +13,37 @@ import java.util.Map.Entry;
 class Solution {
     // Function to sort the array according to frequency of elements.
     public ArrayList<Integer> sortByFreq(int arr[]) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        ArrayList<Integer> list = new ArrayList<>();
-
-        for (int i = 0; i < arr.length; i++) {
-            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
+        HashMap<Integer,Integer>mp=new HashMap<>();
+        
+        for(int i=0;i<arr.length;i++){
+            int x=arr[i];
+            if(mp.containsKey(x)){
+                mp.put(x,mp.get(x)+1);
+            }
+            else{
+                mp.put(x,1);
+            }
         }
-
-        List<Map.Entry<Integer, Integer>> mapList = new LinkedList<>(map.entrySet());
-
-        mapList.sort((a, b) -> {
-            int freqCompare = b.getValue().compareTo(a.getValue());
-            int valueCompare = a.getKey().compareTo(b.getKey());
-            if (freqCompare == 0) {
-                return valueCompare;
-            } else {
-                return freqCompare;
+        ArrayList<Integer>list=new ArrayList<>(mp.keySet());
+        Collections.sort(list,(a,b)->{
+            if(mp.get(a)==mp.get(b)){
+                return a-b;
+            }
+            else{
+               return mp.get(b)-mp.get(a);
             }
         });
-
-        for (Map.Entry<Integer, Integer> entry : mapList) {
-            for (int i = 0; i < entry.getValue(); i++) {
-                list.add(entry.getKey());
+        ArrayList<Integer>ans=new ArrayList<>();
+        
+        for(int i=0;i<list.size();i++){
+            int p=mp.get(list.get(i));
+            while(p-->0){
+                ans.add(list.get(i));
             }
         }
-
-        return list;
+        
+        return ans;
     }
-    
 }
 
 //{ Driver Code Starts.
