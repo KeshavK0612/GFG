@@ -20,6 +20,8 @@ class GFG {
             ArrayList<Integer> ans = ob.spirallyTraverse(matrix);
             for (Integer val : ans) System.out.print(val + " ");
             System.out.println();
+
+            System.out.println("~");
         }
     }
 }
@@ -27,39 +29,22 @@ class GFG {
 
 
 class Solution {
-    public ArrayList<Integer> spirallyTraverse(int matrix[][]) {
-        ArrayList<Integer> result = new ArrayList<>();
-        if (matrix.length == 0) return result;
+    // Function to return a list of integers denoting spiral traversal of matrix.
+    public ArrayList<Integer> spirallyTraverse(int mat[][]) {
         
-        int top = 0, bottom = matrix.length - 1;
-        int left = 0, right = matrix[0].length - 1;
-
-        while (top <= bottom && left <= right) {
-            for (int i = left; i <= right; i++) {
-                result.add(matrix[top][i]);
-            }
-            top++;
-
-            for (int i = top; i <= bottom; i++) {
-                result.add(matrix[i][right]);
-            }
-            right--;
-
-            if (top <= bottom) {
-                for (int i = right; i >= left; i--) {
-                    result.add(matrix[bottom][i]);
-                }
-                bottom--;
-            }
-
-            if (left <= right) {
-                for (int i = bottom; i >= top; i--) {
-                    result.add(matrix[i][left]);
-                }
-                left++;
-            }
+        int n=mat.length,m=mat[0].length,s=n*m;
+        ArrayList<Integer> ans=new ArrayList<>();
+        int a=0,b=0,c=n-1,d=m-1;
+        while(ans.size()<s){
+            for(int i=b;i<=d && ans.size()<s;i++) ans.add(mat[a][i]);
+            a++;
+            for(int i=a;i<=c && ans.size()<s;i++) ans.add(mat[i][d]);
+            d--;
+            for(int i=d;i>=b && ans.size()<s;i--) ans.add(mat[c][i]);
+            c--;
+            for(int i=c;i>=a && ans.size()<s;i--) ans.add(mat[i][b]);
+            b++;
         }
-        
-        return result;
+        return ans;
     }
 }
